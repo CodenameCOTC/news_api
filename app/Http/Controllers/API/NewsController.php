@@ -9,9 +9,10 @@ use Validator;
 
 class NewsController extends BaseController
 {
-    public function index()
+    public function index(Request $request)
     {
-        $news = News::with('user')->orderBy('created_at', 'desc')->paginate(10);
+        $searchQuery = $request->query('search', '');
+        $news = News::with('user')->where('title', 'LIKE', '%'.$searchQuery.'%')->orderBy('created_at', 'desc')->paginate(10);
 
         return $this->sendResponse($news, 'News retrieved successfully');
     }
