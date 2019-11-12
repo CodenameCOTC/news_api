@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class NewsComment extends Model
 {
+
+    protected $fillable = [
+        'text', 'user_id', 'news_id'
+    ];
+
     public function news() {
         return $this->belongsTo(News::class, 'news_id');
     }

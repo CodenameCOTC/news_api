@@ -26,3 +26,12 @@ Route::post('news', 'API\NewsController@store')->middleware('jwt.verify');
 Route::put('news/{news}', 'API\NewsController@update')->middleware('jwt.verify');
 Route::delete('news/{news}', 'API\NewsController@destroy')->middleware('jwt.verify');
 
+
+/**
+ * News Comments Route
+ */
+
+ Route::get('news/{news}/comment', 'API\NewsCommentController@index');
+ Route::post('news/{news}/comment', 'API\NewsCommentController@store')->middleware('jwt.verify');
+ Route::put('news/{news}/comment/{comment}', 'API\NewsCommentController@update')->middleware('jwt.verify');
+ Route::delete('/news{news}/comment/{comment}', 'API\NewsCommentController@destroy')->middleware('jwt.verify');

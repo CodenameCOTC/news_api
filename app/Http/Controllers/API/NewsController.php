@@ -45,7 +45,7 @@ class NewsController extends BaseController
 
     public function show($id)
     {
-        $news = News::with('user')->find($id);
+        $news = News::with('user')->with('comments')->find($id);
 
 
         if (is_null($news)) {
