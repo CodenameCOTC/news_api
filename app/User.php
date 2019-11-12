@@ -32,6 +32,10 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(News::class, 'created_by', 'id');
     }
 
+    public function comment() {
+        return $this->hasMany(NewsComments::class, 'user_id', 'id');
+    }
+
 
     public function getJWTIdentifier()
     {

@@ -13,8 +13,16 @@
 
 Route::post('register', 'UserController@register');
 Route::post('login', 'UserController@login');
+Route::get('user', 'UserController@getAuthenticatedUser')->middleware('jwt.verify');
+
+
+/**
+ * News Route
+ */
+
 Route::get('news', 'API\NewsController@index');
 Route::get('news/{id}', 'API\NewsController@show');
-
 Route::post('news', 'API\NewsController@store')->middleware('jwt.verify');
-Route::get('user', 'UserController@getAuthenticatedUser')->middleware('jwt.verify');
+Route::put('news/{news}', 'API\NewsController@update')->middleware('jwt.verify');
+Route::delete('news/{news}', 'API\NewsController@destroy')->middleware('jwt.verify');
+

@@ -45,7 +45,7 @@ class NewsController extends BaseController
 
     public function show($id)
     {
-        $news = News::find($id);
+        $news = News::with('user')->find($id);
 
 
         if (is_null($news)) {
@@ -58,6 +58,14 @@ class NewsController extends BaseController
 
     public function update(Request $request, News $news)
     {
+
+        $user = auth()->user();
+
+        if ($user->id != $news->created_by) {
+            return $this->sendBadRequest('Permission not allowed');
+        }
+
+
         $input = $request->all();
 
         $validator = Validator::make($input, [
@@ -80,6 +88,6 @@ class NewsController extends BaseController
     {
         $news->delete();
 
-        return $this->sendResponse($news->toArray(), 'News deleted successfully');
+        return $this->sendResponse([], 'News deleted successfully');
     }
 }

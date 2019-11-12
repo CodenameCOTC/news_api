@@ -14,4 +14,8 @@ class News extends Model
     public function user() {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    public function comments() {
+        return $this->hasMany(NewsComment::class);
+    }
 }
