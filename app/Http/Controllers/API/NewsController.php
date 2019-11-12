@@ -86,6 +86,13 @@ class NewsController extends BaseController
 
     public function destroy(News $news)
     {
+
+        $user = auth()->user();
+
+        if ($user->id != $news->created_by) {
+            return $this->sendBadRequest('Permission not allowed');
+        }
+        
         $news->delete();
 
         return $this->sendResponse([], 'News deleted successfully');
