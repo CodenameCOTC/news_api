@@ -28,6 +28,7 @@ class NewsController extends BaseController
         $validator = Validator::make($input, [
             'title' => 'required',
             'body' => 'required',
+            'images' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -70,7 +71,8 @@ class NewsController extends BaseController
 
         $validator = Validator::make($input, [
             'title' => 'required',
-            'body' => 'required'
+            'body' => 'required',
+            'images' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -79,6 +81,7 @@ class NewsController extends BaseController
 
         $news->title = $input['title'];
         $news->body = $input['body'];
+        $news->images = $input['images'];
         $news->save();
 
         return $this->sendResponse($news->toArray(), 'News updated successfully');
