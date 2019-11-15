@@ -35,12 +35,14 @@ class NewsCommentController extends BaseController
             'news_id' => $newsId
         ]);
 
-        return $this->sendResponse($comment, 'Comment created successfully');
+        $createdComment = NewsComment::with('user')->find($comment['id']);
+
+        return $this->sendResponse($createdComment, 'Comment created successfully');
 
     }
 
     public function update(Request $request, NewsComment $newsComment) {
-        $userId = auth()->user()->id;
+        $userId = auth()->user()->sub;
 
         if ($userId != $newsComment->user_id) {
             return $this->sendBadRequest('Permission not allowed');
@@ -62,8 +64,9 @@ class NewsCommentController extends BaseController
         return $this->sendResponse($newsComment->toArray(), 'News updated sucessfully');
     }
 
-    public function destroy(NewsComment $newsComment) {
+    public function destroy(News $news, $id) {
         $userId = auth()->user()->id;
+        $newsComment = NewsComment::with('user')->where('id', $id)->first();
 
         if ($userId != $newsComment->user_id) {
             return $this->sendBadRequest('Permission not allowed');
@@ -71,6 +74,6 @@ class NewsCommentController extends BaseController
 
         $newsComment->delete();
 
-        return $this->sendResponse([], 'Comment deleted successfully');
+        return $this->sendResponse($newsComment, 'Comment deleted successfully');
     }
 }

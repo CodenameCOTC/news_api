@@ -12,7 +12,7 @@ class NewsController extends BaseController
     public function index(Request $request)
     {
         $searchQuery = $request->query('search', '');
-        $news = News::with('user')->where('title', 'LIKE', '%'.$searchQuery.'%')->orderBy('created_at', 'desc')->paginate(10);
+        $news = News::with('user')->where('title', 'LIKE', '%'.$searchQuery.'%')->orderBy('created_at', 'desc')->paginate(12);
 
         return $this->sendResponse($news, 'News retrieved successfully');
     }
@@ -39,6 +39,7 @@ class NewsController extends BaseController
         $news = News::create([
             'title' => $input['title'],
             'body' => $input['body'],
+            'images' => $input['images'],
             'created_by' => $user->id,
         ]);
 
@@ -47,7 +48,7 @@ class NewsController extends BaseController
 
     public function show($id)
     {
-        $news = News::with('user')->with('comments')->find($id);
+        $news = News::with('user')->with('comments.user')->find($id);
 
 
         if (is_null($news)) {
